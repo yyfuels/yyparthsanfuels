@@ -1,86 +1,338 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YY PARTSHAN — YESU YA FUGA</title>
-<style>*{box-sizing:border-box}:root{--bg:#f1f4f8;--ink:#0f1e33;--muted:#64748b;--line:#e2e8f0;--orange:#f97316}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Arial,sans-serif}
-header{background:linear-gradient(135deg,#0f1e33,#16324f 65%,#1e3a5f);color:#fff;position:sticky;top:0;z-index:20}
-.top{max-width:1240px;margin:0 auto;padding:18px 22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
-.brand{display:flex;gap:14px;align-items:center}.logo{width:52px;height:52px;border-radius:14px;background:#f97316;display:grid;place-items:center;font-size:26px}
-header h1{margin:0;font-size:26px}header h1 span{color:#fbbf24}.sub{color:#cbd5e1;font-size:13px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-top:5px}
-.pill{display:inline-flex;gap:7px;align-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:7px 11px;border-radius:999px;font-size:12px;font-weight:700}.dot{width:8px;height:8px;border-radius:50%;background:#34d399}.clock{font-family:monospace;font-size:13px;color:#e2e8f0;margin-top:7px;text-align:right}
-.wrap{max-width:1240px;margin:0 auto;padding:18px 22px 40px}.tabs{display:flex;gap:8px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);padding:8px;border-radius:14px}
-.tabs button{background:transparent;color:#334155;border:0;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}.tabs button.on{background:#0f1e33;color:#fff}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0;box-shadow:0 6px 24px rgba(15,30,51,.07)}
-h2{margin:0 0 6px;font-size:22px}h3{margin:0 0 12px}.small{font-size:13px;color:var(--muted)}
-.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}@media(max-width:700px){.g2,.g4{grid-template-columns:1fr}}
-.kpi{font-size:26px;font-weight:900;font-family:monospace}label{font-size:12px;font-weight:800;text-transform:uppercase;color:#475569;display:block;margin:14px 0 6px}
-input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;font-size:15px}
-button{border:0;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer;background:#f97316;color:#fff;font-size:14px}button.sec{background:#0f1e33}button.ghost{background:#f1f5f9;color:#334155;border:1px solid var(--line)}
-table{width:100%;border-collapse:collapse;font-size:14px}th{font-size:11px;text-transform:uppercase;color:var(--muted);text-align:left}th,td{border-top:1px solid var(--line);padding:11px 8px;vertical-align:top}
-.banner{border-radius:12px;padding:13px;font-weight:700;font-size:14px}.ok{background:#ecfdf5;color:#065f46}.warn{background:#fffbeb;color:#92400e}.info{background:#eff6ff;color:#1e40af}.err{background:#fef2f2;color:#991b1b}
-.bar{height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:#059669}
-.row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
-</style></head><body><div style="background:#dc2626;color:#fff;text-align:center;padding:10px;font-weight:900;font-size:15px">YY PARTSHAN FUELS • ONLINE • YESU YA FUGA</div>
-<header><div class="top"><div class="brand"><div class="logo">⛽</div><div id="msgBanner" style="background:#eff6ff;color:#1e40af;text-align:center;padding:12px;font-weight:800;font-size:14px;display:none"></div><div><h1>YY PARTSHAN <span>FUELS</span></h1><div class="sub">Yesu Ya Fuga • Nabyewanga, Masaka Road</div></div></div><div><span class="pill"><span class="dot"></span><span id="status">YY Partshan • Saved </span></span><div class="clock" id="clock"></div></div></div></header>
-<div class="wrap"><div class="tabs" id="tabs"></div><div id="app"></div><footer class="small" style="text-align:center;padding:10px">YY Partshan Fuels • Member pricing — save 30 UGX per litre • Petrol &amp; Diesel • Admin PIN default 1234</footer></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YY PARTSHAN FUELS | Station Management</title>
+<style>
+:root{--navy:#101d35;--navy2:#1a3154;--orange:#f47721;--amber:#ffb454;--bg:#f4f7fb;--ink:#17243a;--muted:#718096;--line:#e5eaf2;--green:#0d9b72;--red:#d94b55;--blue:#3576d3;--surface:#fff;--shadow:0 12px 34px rgba(17,35,62,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.mast{background:linear-gradient(90deg,#172944,#263f63);color:#dce8f8;text-align:center;padding:7px 12px;font-size:10px;font-weight:900;letter-spacing:1.7px;text-transform:uppercase}
+header{background:linear-gradient(125deg,#101d35 0%,#1b365b 68%,#24476b 100%);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 8px 25px #0c1c3326;border-bottom:1px solid #ffffff12}
+.head{max-width:1400px;margin:auto;padding:17px 26px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:14px}.logo{width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,#ff9a3c,#ef6417);display:grid;place-items:center;font-size:27px;box-shadow:0 8px 20px #f4772140}h1{font-size:23px;margin:0;letter-spacing:.4px;font-weight:900}h1 span{color:#ffb454}.sub{font-size:11px;color:#c5d3e5;text-transform:uppercase;letter-spacing:1.5px;margin-top:3px}.status{font-size:11px;font-weight:800;border:1px solid #ffffff30;background:#ffffff12;border-radius:30px;padding:8px 12px}.clock{font:11px ui-monospace,monospace;text-align:right;color:#d6e4f5;margin-top:6px}
+.wrap{max-width:1400px;margin:auto;padding:22px 26px 54px}.tabs{display:flex;gap:6px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);padding:8px;border-radius:16px;box-shadow:0 5px 18px #17243a08;margin-bottom:20px}.tabs button{background:transparent;color:#53647b;padding:10px 13px;border-radius:10px;font-size:12px}.tabs button.active{background:var(--navy);color:#fff;box-shadow:0 5px 12px #10243b24}.tabs button.soft{background:#f3f6fa;color:#34445b;border:1px solid var(--line)}
+button{border:0;border-radius:10px;padding:11px 16px;background:linear-gradient(135deg,#f58a32,#ed681b);color:white;font-weight:800;cursor:pointer;font-size:12px;letter-spacing:.1px;transition:transform .15s,box-shadow .15s,filter .15s;box-shadow:0 4px 10px #f4772122}button:hover{filter:brightness(1.03);transform:translateY(-1px);box-shadow:0 7px 16px #f4772130}button:disabled{opacity:.5;cursor:not-allowed;transform:none}.secondary{background:linear-gradient(135deg,#243f63,#142a49);box-shadow:0 4px 10px #10243b22}.soft{background:#f3f6fa;color:#34445b;border:1px solid var(--line);box-shadow:none}.danger{background:#d94b55;box-shadow:0 4px 10px #d94b5522}.success{background:#0d9b72}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:22px;margin:16px 0;box-shadow:var(--shadow)}h2{font-size:20px;margin:0 0 5px;letter-spacing:-.35px;color:#14243c}h3{font-size:14px;margin:0 0 13px;color:#20344f}.muted,.small{color:var(--muted);font-size:12px}.grid{display:grid;gap:15px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.kpi{font-size:25px;font-weight:900;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;margin-top:5px;overflow-wrap:anywhere;color:#172b49;letter-spacing:-.7px}
+label{display:block;margin:13px 0 6px;font-size:10px;font-weight:900;letter-spacing:.8px;color:#64748b;text-transform:uppercase}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #d8e0eb;border-radius:10px;font:inherit;background:#fbfcfe;color:var(--ink);transition:border-color .15s,box-shadow .15s}input:focus,select:focus,textarea:focus{outline:0;border-color:#f29a51;box-shadow:0 0 0 3px #f477211a;background:#fff}input::placeholder{color:#a1adbd}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.notice{padding:13px 15px;border-radius:12px;font-size:12px;font-weight:700;margin:13px 0;border:1px solid transparent}.info{background:#eff6ff;color:#2455a0;border-color:#dceaff}.ok{background:#ecfdf5;color:#087857;border-color:#c8f1df}.warn{background:#fff8e9;color:#93600a;border-color:#f7e4b8}.err{background:#fff0f0;color:#a3313a;border-color:#f7d1d4}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line)}.row:first-child{border-top:0}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px;margin-top:12px}table{border-collapse:collapse;width:100%;font-size:12px;min-width:720px}th,td{padding:12px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.8px;background:#f6f8fb;white-space:nowrap}tbody tr:hover{background:#fafcff}tbody tr:last-child td{border-bottom:0}.bar{height:10px;border-radius:20px;background:#e9eef5;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#0d9b72,#48c79c);border-radius:20px}.hidden{display:none!important}.right{text-align:right}.pill{display:inline-block;border-radius:20px;padding:4px 9px;font-size:10px;font-weight:900;background:#edf2f8;color:#40536d}.footer{text-align:center;color:#8a98aa;font-size:11px;padding:24px}.toast{position:fixed;z-index:99;top:18px;left:50%;transform:translateX(-50%);max-width:92vw;padding:12px 18px;border-radius:11px;background:#0f766e;color:#fff;font-weight:800;box-shadow:0 10px 30px #0002;font-size:12px}
+hr{border:0;border-top:1px solid var(--line)}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:17px 16px 42px}}
+@media(max-width:620px){.wrap{padding:12px 10px 35px}.head{padding:13px 15px}.g2,.g3,.g4{grid-template-columns:1fr}h1{font-size:19px}.tabs{border-radius:12px}.tabs button{padding:9px 10px;font-size:11px}.card{padding:16px;border-radius:14px}h2{font-size:18px}.kpi{font-size:22px}.status{font-size:10px}}
+@media print{header,.mast,.tabs,.actions,button,.footer{display:none!important}body{background:#fff}.wrap{max-width:none;padding:0}.card{box-shadow:none;border:0;padding:8px;margin:0}}
+</style>
+</head>
+<body>
+<div class="mast">YY PARTSHAN FUELS • ONLINE MANAGEMENT • YESU YA FUGA</div>
+<header><div class="head"><div class="brand"><div class="logo">⛽</div><div><h1>YY PARTSHAN <span>FUELS</span></h1><div class="sub">Yesu Ya Fuga • Nabyewanga, Masaka Road</div></div></div><div><div class="status" id="connection">● Connecting to Supabase…</div><div class="clock" id="clock"></div></div></div></header>
+<div class="wrap">
+  <div class="tabs" id="tabs"></div>
+  <main id="app"><div class="card">Loading YY PARTSHAN FUELS…</div></main>
+  <div class="footer">YY PARTSHAN FUELS • Yesu Ya Fuga • Station Management</div>
+</div>
+<div id="toast" class="toast hidden"></div>
 <script>
-const SB="https://tnemymundarkdjruyvrnt.YY Partshan.co/rest/v1/app_records";
-const KEY="sb_publishable_1KHOnldpNIaRZtIzU453xg_mNZNQdeq";
-const ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.[STRIPPED 127 bytes].ljW7bZqV4tIpM1rHluZMsE67mkWYMhqZCpGIfur9BYc";
-const H={"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json","Prefer":"return=representation"};
-const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36);
-const fmt=n=>"UGX "+Math.round(n||0).toLocaleString("en-UG");
-const stamp=()=>{const d=new Date();return{timestamp:d.toISOString(),date:d.toISOString().slice(0,10),dateLabel:d.toLocaleDateString("en-GB"),timeLabel:d.toLocaleTimeString("en-GB"),fullTimestamp:d.toLocaleString("en-GB")}};
-const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;");
+"use strict";
 
-let DB={members:[],attendants:[],transactions:[],deliveries:[],settings:[],audit:[],pumps:[],expenses:[]};
-let view="Dashboard",isAdmin=false,search="",SAVEDMODE=true;
-function setSavedMode(on){SAVEDMODE=true;const s=document.getElementById("status");if(s)s.textContent="Saved • Saved  • "+DB.members.length+" customers";}
+/* Supabase project configuration.
+   The project reference below was read from the anon JWT you supplied.
+   Publishable key is used as apikey; legacy anon JWT is used as bearer token. */
+const SUPABASE_URL = "https://toemyhmndarkdjruyvrt.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_1KHOnldpNIaRZtIzU453xg_mNZNQdeq";
+const SUPABASE_ANON_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvZW15aG1uZGFya2RqcnV5dnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyMDU2NTUsImV4cCI6MjExMDc4MTY1NX0.ljW7bZqV4tIpM1rHluZMsE67mkWYMhqZCpGIfur9BYc";
 
-function localKey(c){return "yy_partshan_local_"+c} function localList(c){try{return JSON.parse(localStorage.getItem(localKey(c))||"[]")}catch(e){return[]}} function localSave(c,r){localStorage.setItem(localKey(c),JSON.stringify(r))}
-function showMsg(m){try{let el=document.getElementById("msg");if(el){el.textContent=m;el.style.display="block";}else{let d=document.createElement("div");d.id="msg";d.style.cssText="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#0f766e;color:#fff;padding:12px 18px;border-radius:10px;z-index:9999;font-weight:700;max-width:90%";d.textContent=m;document.body.appendChild(d);} }catch(e){alert(m);}}
-function localKey(c){return "yy_partshan_"+c} function localList(c){try{return JSON.parse(localStorage.getItem(localKey(c))||"[]")}catch(e){return[]}} function localSave(c,r){localStorage.setItem(localKey(c),JSON.stringify(r))}
-async function sbList(col){return localList(col);}
-async function fetchTimeout(url,opts,ms=4000){const c=new AbortController();const timer=setTimeout(()=>c.abort(),ms);try{const r=await fetch(url,{...(opts||{}),signal:c.signal});clearTimeout(timer);return r;}catch(e){clearTimeout(timer);throw e;}}
-async function sbCreate(col,val,key){const rid=key||uid();let rows=localList(col);if(!rows.find(x=>x.id===rid))rows.push({id:rid,value:val});localSave(col,rows);try{const r=await fetchTimeout(SB,{method:"POST",headers:{...H,Prefer:"return=representation"},body:JSON.stringify({collection:col,record_id:rid,value:val})});if(!r.ok)throw new Error("Supabase "+r.status);}catch(e){}return rid;}
-async function sbReplace(col,id,val){let rows=localList(col);let i=rows.findIndex(x=>x.id===id);if(i>=0)rows[i].value=val;else rows.push({id,value:val});localSave(col,rows);}
-async function sbDelete(col,id){localSave(col,localList(col).filter(x=>x.id!==id));}
-async function trySync(){showMsg("Syncing…");let ok=true;try{for(let col of Object.keys(DB)){for(let r of localList(col)){const res=await fetchTimeout(SB,{method:"POST",headers:{...H,Prefer:"return=representation"},body:JSON.stringify({collection:col,record_id:r.id,value:r.value})});if(!res.ok)ok=false;}}}catch(e){ok=false;}showMsg(ok?"Saved + Synced to YY Partshan.":"Saved.");load();}
-async function load(){try{for(let c of Object.keys(DB)){DB[c]=localList(c);}}catch(e){}document.getElementById("status").textContent="YY Partshan • Saved • "+DB.members.length+" customers";render();setTimeout(async()=>{try{for(let c of Object.keys(DB)){try{const rows=await sbList(c);if(rows&&rows.length)DB[c]=rows;}catch(e){}}document.getElementById("status").textContent="YY Partshan • Saved • "+DB.members.length+" customers";render();}catch(e){}},200);}
-async function trySync(){showMsg("Checking YY Partshan…");try{for(let col of Object.keys(DB)){for(let r of localList(col)){await sFetch(SB,{method:"POST",headers:{...H,Prefer:"return=representation,resolution=merge-duplicates"},body:JSON.stringify({collection:col,record_id:r.id,value:r.value})});}}showMsg("✅ Synced to YY Partshan!");}catch(e){showMsg("Saved.");}load();}
-function settings(){const s=DB.settings[0]?.value||{};return{prices:{Petrol:5850,Diesel:5450},discountPerLitre:30,adminPin:"1234",...s,prices:{Petrol:5850,Diesel:5450,...(s.prices||{})}};}
-function custId(n){return "YY-"+String(n).padStart(3,"0")} function attId(n){return "ATT-"+String(n).padStart(3,"0")}
-function nextCust(){let m=0;DB.members.forEach(x=>{let n=parseInt((x.value.customerId||"").replace("YY-",""));if(n>m)m=n});return custId(m+1)}
-function nextAtt(){let m=0;DB.attendants.forEach(x=>{let n=parseInt((x.value.attendantId||"").replace("ATT-",""));if(n>m)m=n});return attId(m+1)}
-function memberStats(id){let bal=0,debt=0,dep=0,fuel=0,disc=0;DB.transactions.forEach(t=>{const v=t.value;if(v.memberId!==id)return;if(v.kind==="deposit"){let td=Math.min(v.amount,debt);debt-=td;bal+=v.amount-td;dep+=v.amount;}if(v.kind==="fuel"){if(v.isCredit)debt+=v.amount;else bal-=v.amount;fuel+=v.amount;disc+=v.discount||0;}});return{bal,debt,dep,fuel,disc};}
-function stock(fuel){let s=0;DB.deliveries.forEach(d=>{if(d.value.fuel===fuel)s+=d.value.litres||0});DB.transactions.forEach(t=>{if(t.value.kind==="fuel"&&t.value.fuel===fuel)s-=t.value.litres||0});return s;}
-function nav(){const tabs=["Dashboard","Customers","Attendants","Deposit Money","Issue Fuel","Transactions","Fuel Stock","Daily Closing","Deliveries","Expenses","Statement","Settings"];document.getElementById("tabs").innerHTML=tabs.map(t=>`<button class="${t===view?"on":""}" onclick="view='${t}';render()">${t}</button>`).join("")+`<button class="ghost" onclick="retryRefresh()">Refresh</button><button class="ghost" onclick="trySync()">Sync</button>`;}
-async function saveTx(v){const id=await sbCreate("transactions",v,"tx-"+uid());DB.transactions.push({id,value:v});}
-function calcFuel(){const el=document.getElementById("calc");if(!el)return;const S=settings();const f=document.getElementById("ffuel").value;const l=parseFloat(document.getElementById("fL").value||0);const pump=S.prices[f];const member=Math.max(0,pump-S.discountPerLitre);el.innerHTML=`Pump ${fmt(pump)} • Member ${fmt(member)} • Litres ${l} • Discount ${fmt(l*S.discountPerLitre)} • <b>Pay ${fmt(l*member)}</b> • Stock ${stock(f).toFixed(1)} L`;}
-function render(){nav();const el=document.getElementById("app");const S=settings();const today=new Date().toISOString().slice(0,10);let todayTx=DB.transactions.filter(t=>t.value.date===today);let todayFuel=todayTx.filter(t=>t.value.kind==="fuel");let todayAmt=todayFuel.reduce((a,t)=>a+t.value.amount,0);let todayL=todayFuel.reduce((a,t)=>a+(t.value.litres||0),0);let todayDisc=todayFuel.reduce((a,t)=>a+(t.value.discount||0),0);let totalBal=DB.members.reduce((a,m)=>a+memberStats(m.id).bal,0);let totalDebt=DB.members.reduce((a,m)=>a+memberStats(m.id).debt,0);
-if(SAVEDMODE)el.innerHTML=`<div class="card banner warn">All entries are saved. Use <b>Export Backup</b> in Settings to keep a copy.</div>`;else el.innerHTML="";
-if(view==="Dashboard"){el.innerHTML+=`<div class="card"><h2>Overview — ${new Date().toLocaleDateString("en-GB")}</h2><div class="grid g4"><div><div class="small">TOTAL MEMBER BALANCE</div><div class="kpi">${fmt(totalBal)}</div></div><div><div class="small">TODAY SALES</div><div class="kpi">${fmt(todayAmt)}</div></div><div><div class="small">TODAY LITRES</div><div class="kpi">${todayL.toFixed(1)} L</div></div><div><div class="small">TODAY DISCOUNT</div><div class="kpi">${fmt(todayDisc)}</div></div></div><p class="small">Members <b>${DB.members.length}</b> • Attendants <b>${DB.attendants.length}</b> • Total debt <b>${fmt(totalDebt)}</b> • Petrol stock <b>${stock("Petrol").toFixed(1)} L</b> • Diesel <b>${stock("Diesel").toFixed(1)} L</b></p></div><div class="card"><h3>Search</h3><input placeholder="Search customers, transactions, attendants…" value="${esc(search)}" oninput="search=this.value;render()"></div><div class="card"><h3>Recent transactions</h3>${DB.transactions.slice().reverse().slice(0,15).map(t=>`<div class="row"><span><b>${esc(t.value.kind)}</b> • ${esc(t.value.memberName||"")} • ${fmt(t.value.amount)} ${t.value.litres?`• ${t.value.litres} L ${esc(t.value.fuel||"")}`:""}</span><span class="small">${esc(t.value.dateLabel||t.value.date||"")} ${esc(t.value.timeLabel||"")}</span></div>`).join("")||"No transactions yet."}</div>`;}
-if(view==="Customers"){el.innerHTML+=`<div class="card"><h2>Register Customer — next ID ${nextCust()}</h2><label>Name</label><input id="cn"><label>Phone</label><input id="cp"><label>Plate (optional)</label><input id="cpl"><button style="margin-top:12px" onclick="addCustomer()">Register Customer</button></div><div class="card"><h3>Customers (${DB.members.length})</h3><input placeholder="Search name / phone / ID" oninput="search=this.value;render()" value="${esc(search)}">${DB.members.filter(m=>(m.value.name+" "+m.value.phone+" "+(m.value.customerId||"")).toLowerCase().includes(search.toLowerCase())).map(m=>{const st=memberStats(m.id);return `<div class="row"><span><b>${esc(m.value.customerId)}</b> — ${esc(m.value.name)} • ${esc(m.value.phone)} • Balance <b>${fmt(st.bal)}</b> ${st.debt?`• Debt <b style="color:red">${fmt(st.debt)}</b>`:""}</span><span>${isAdmin?`<button class="ghost" onclick="delCustomer('${m.id}')">Delete (Admin)</button>`:""}</span></div>`}).join("")}</div><div class="card"><button onclick="adminLogin()">Admin Login (PIN)</button> <span class="small">${isAdmin?"Admin ON":"Attendant mode"}</span></div>`;}
-if(view==="Attendants"){el.innerHTML+=`<div class="card"><h2>Register Attendant — next ID ${nextAtt()}</h2><label>Name</label><input id="an"><label>Phone</label><input id="ap"><button style="margin-top:12px" onclick="addAttendant()">Register Attendant</button></div><div class="card"><h3>Attendants</h3>${DB.attendants.map(a=>`<div class="row"><span><b>${esc(a.value.attendantId)}</b> — ${esc(a.value.name)} • ${esc(a.value.phone)}</span></div>`).join("")||"None yet"}</div>`;}
-if(view==="Deposit Money"){el.innerHTML+=`<div class="card"><h2>Deposit Money</h2><label>Customer</label><select id="dCust">${DB.members.map(m=>`<option value="${m.id}">${esc(m.value.customerId)} — ${esc(m.value.name)} (Bal ${fmt(memberStats(m.id).bal)}${memberStats(m.id).debt?`, Debt ${fmt(memberStats(m.id).debt)}`:""})</option>`).join("")}</select><label>Amount (UGX)</label><input id="dAmt" type="number"><label>Attendant</label><select id="dAtt"><option value="">Select Attendant</option>${DB.attendants.map(a=>`<option value="${a.id}">${esc(a.value.attendantId)} — ${esc(a.value.name)}</option>`).join("")}</select><button style="margin-top:12px" onclick="doDeposit()">Save Deposit</button><p class="small">If customer has debt, deposit clears debt first, remainder goes to balance.</p></div>`;}
-if(view==="Issue Fuel"){el.innerHTML+=`<div class="card"><h2>Issue Fuel</h2><label>Customer</label><select id="fCust">${DB.members.map(m=>`<option value="${m.id}">${esc(m.value.customerId)} — ${esc(m.value.name)} (Bal ${fmt(memberStats(m.id).bal)}${memberStats(m.id).debt?`, Debt ${fmt(memberStats(m.id).debt)} — NO new credit`:""})</option>`).join("")}</select><label>Fuel</label><select id="ffuel"><option>Petrol</option><option>Diesel</option></select><label>Litres</label><input id="fL" type="number" step="0.1" oninput="calcFuel()"><div id="calc" class="banner warn" style="margin-top:10px"></div><label>Pump *</label><select id="fPump"><option value="">Select Pump</option><option>Pump 1</option><option>Pump 2</option></select><label>Attendant *</label><select id="fAtt"><option value="">Select Attendant</option>${DB.attendants.map(a=>`<option value="${a.id}">${esc(a.value.attendantId)} — ${esc(a.value.name)}</option>`).join("")}</select><label>Shift *</label><select id="fShift"><option value="">Select Shift</option><option>Day Shift</option><option>Night Shift</option></select><label><input type="checkbox" id="fCredit"> Take on CREDIT (only if no existing debt)</label><br><button style="margin-top:12px" onclick="doFuel()">Save Fuel Issue</button></div>`;calcFuel();}
-if(view==="Transactions"){el.innerHTML+=`<div class="card"><h2>Transactions / Ledger</h2><input placeholder="Search…" oninput="search=this.value;render()" value="${esc(search)}"><table><tr><th>Date + Time</th><th>Customer</th><th>Type</th><th>Fuel / Litres</th><th>Amount</th><th>Attendant</th><th>Pump / Shift</th><th></th></tr>${DB.transactions.slice().reverse().filter(t=>JSON.stringify(t.value).toLowerCase().includes(search.toLowerCase())).map(t=>`<tr><td>${esc(t.value.dateLabel||t.value.date)} ${esc(t.value.timeLabel||"")}</td><td>${esc(t.value.memberName||"")}</td><td>${esc(t.value.kind)} ${t.value.isCredit?"(CREDIT)":""}</td><td>${esc(t.value.fuel||"")} ${t.value.litres||""}</td><td>${fmt(t.value.amount)}</td><td>${esc(t.value.attendantName||"")}</td><td>${esc(t.value.pump||"")} ${esc(t.value.shift||"")}</td><td>${isAdmin?`<button class="ghost" onclick="delTx('${t.id}')">Delete</button>`:""}</td></tr>`).join("")}</table></div>`;}
-if(view==="Fuel Stock"){el.innerHTML+=`<div class="card"><h2>Fuel Stock</h2>${["Petrol","Diesel"].map(f=>{let s=stock(f);let cap=f==="Petrol"?20000:25000;let pct=Math.min(100,s/cap*100);return `<div style="margin:12px 0"><b>${f}</b> — ${s.toFixed(1)} L of ${cap} L (${pct.toFixed(1)}%)<div class="bar"><i style="width:${pct}%"></i></div></div>`}).join("")}</div><div class="card"><h3>Add Delivery (Stock In)</h3><label>Fuel</label><select id="dlF"><option>Petrol</option><option>Diesel</option></select><label>Litres</label><input id="dlL" type="number"><label>Supplier (optional)</label><input id="dlS"><button style="margin-top:12px" onclick="doDelivery()">Add Delivery</button></div>`;}
+const COLLECTIONS = ["members","attendants","transactions","deliveries","settings","audit","pumps","expenses"];
+const DB = Object.fromEntries(COLLECTIONS.map(k=>[k,[]]));
+const DEFAULTS = {prices:{Petrol:5850,Diesel:5450},discountPerLitre:30,adminPin:"1234",petrolCapacity:20000,dieselCapacity:25000};
+let view="Dashboard", isAdmin=false, search="", online=false, busy=false;
+const $ = id => document.getElementById(id);
+const money = n => "UGX " + Math.round(Number(n)||0).toLocaleString("en-UG");
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2)+Date.now().toString(36));
+const today = () => {const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");};
+function stamp(){const d=new Date();return {timestamp:d.toISOString(),date:today(),dateLabel:d.toLocaleDateString("en-GB"),timeLabel:d.toLocaleTimeString("en-GB"),fullTimestamp:d.toLocaleString("en-GB")};}
+function toast(message,kind="ok"){const el=$("toast");el.textContent=message;el.style.background=kind==="err"?"#991b1b":kind==="warn"?"#92400e":"#0f766e";el.classList.remove("hidden");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.add("hidden"),4200);}
+function setConnection(text,good=false){$("connection").textContent=(good?"● ":"● ")+text;$("connection").style.color=good?"#bbf7d0":"#fecaca";}
 
-if(view==="Daily Closing"){let d=new Date().toISOString().slice(0,10);let tx=DB.transactions.filter(x=>x.value.date===d);let fuel=tx.filter(x=>x.value.kind==="fuel");let dep=tx.filter(x=>x.value.kind==="deposit");let petrol=fuel.filter(x=>x.value.fuel==="Petrol");let diesel=fuel.filter(x=>x.value.fuel==="Diesel");let sum=a=>a.reduce((s,x)=>s+(x.value.amount||0),0);let sumL=a=>a.reduce((s,x)=>s+(x.value.litres||0),0);el.innerHTML+=`<div class="card"><h2>Daily Closing — ${d}</h2><p><b>Total Fuel Sales:</b> UGX ${sum(fuel).toLocaleString()} — ${sumL(fuel).toFixed(1)} L</p><p><b>Petrol:</b> UGX ${sum(petrol).toLocaleString()} — ${sumL(petrol).toFixed(1)} L</p><p><b>Diesel:</b> UGX ${sum(diesel).toLocaleString()} — ${sumL(diesel).toFixed(1)} L</p><p><b>Deposits Today:</b> UGX ${sum(dep).toLocaleString()} (${dep.length})</p><p><b>Fuel Issues Today:</b> ${fuel.length}</p><p><b>Total Customers:</b> ${DB.members.length}</p></div>`;}
-if(view==="Deliveries"){el.innerHTML+=`<div class="card"><h2>Fuel Deliveries</h2>${DB.deliveries.length===0?"<p>No deliveries yet. Add one in Fuel Stock.</p>":DB.deliveries.map(d=>`<p>${d.value.date||""} — ${d.value.fuel||""} — ${d.value.litres||0} L — UGX ${(d.value.amount||0).toLocaleString()}</p>`).join("")}</div>`;}
-if(view==="Expenses"){el.innerHTML+=`<div class="card"><h2>Expenses</h2><p>Total: UGX ${DB.expenses.reduce((a,x)=>a+(x.value.amount||0),0).toLocaleString()}</p>${DB.expenses.length===0?"<p>No expenses yet.</p>":DB.expenses.map(e=>`<p>${e.value.date||""} — ${e.value.title||""} — UGX ${(e.value.amount||0).toLocaleString()}</p>`).join("")}<h3>Add Expense</h3><input id="exTitle" placeholder="Expense title"><input id="exAmt" type="number" placeholder="Amount UGX"><button onclick="addExpense()">Save Expense</button></div>`;}
-if(view==="Statement"){el.innerHTML+=`<div class="card"><h2>Customer Statement</h2>${DB.members.map(m=>{let st=memberStats(m.id);let tx=DB.transactions.filter(x=>x.value.memberId===m.id);return `<div style="border:1px solid #ddd;padding:10px;margin:8px 0;border-radius:8px"><b>${m.value.name||""} (${m.value.customerId||""})</b> — Balance: UGX ${st.bal.toLocaleString()} — Debt: UGX ${st.debt.toLocaleString()}<br>${tx.length===0?"No transactions yet.":tx.map(x=>`<span>${x.value.date||""} — ${x.value.kind||""} ${x.value.fuel||""} — ${x.value.litres||0} L — UGX ${(x.value.amount||0).toLocaleString()}</span><br>`).join("")}</div>`}).join("")}</div>`;}
-if(view==="Settings"){const S2=settings();el.innerHTML+=`<div class="card"><h2>Settings</h2><label>Petrol pump price</label><input id="sP" type="number" value="${S2.prices.Petrol}" ${isAdmin?"":"disabled"}><label>Diesel pump price</label><input id="sD" type="number" value="${S2.prices.Diesel}" ${isAdmin?"":"disabled"}><label>Discount per litre</label><input id="sDisc" type="number" value="${S2.discountPerLitre}" ${isAdmin?"":"disabled"}><label>Admin PIN</label><input id="sPin" value="${S2.adminPin}" ${isAdmin?"":"disabled"}><button style="margin-top:12px" onclick="saveSettings()">Save Settings</button><button style="margin-top:12px;margin-left:8px" onclick="exportBackup()">Export Backup (Download)</button><p class="small">${isAdmin?"Admin can edit.":"Only Admin can edit prices / discount / PIN."} <button class="ghost" onclick="adminLogin()">Admin Login</button></p></div><div class="card"><h3>Audit Log (Admin only)</h3>${isAdmin?DB.audit.slice().reverse().map(a=>`<div class="row"><span>${esc(a.value.action||"")} — ${esc(a.value.targetLabel||"")} — ${esc(a.value.reason||"")}</span></div>`).join("")||"No audit yet":"Login as Admin to see Audit Log."}</div>`;}
+function localKey(c){return "yy_partshan_v2_"+c;}
+function localRead(c){try{return JSON.parse(localStorage.getItem(localKey(c))||"[]");}catch{return [];}}
+function localWrite(c,rows){localStorage.setItem(localKey(c),JSON.stringify(rows));}
+function saveCache(){for(const c of COLLECTIONS)localWrite(c,DB[c]);}
+function headers(extra={}){return {"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_ANON_JWT,"Content-Type":"application/json",...extra};}
+async function api(path,options={},timeout=12000){
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeout);
+  try{const r=await fetch(SUPABASE_URL+"/rest/v1/"+path,{...options,headers:headers(options.headers||{}),signal:controller.signal});const body=await r.text();if(!r.ok)throw new Error("Supabase HTTP "+r.status+": "+body.slice(0,500));return body?JSON.parse(body):null;}
+  finally{clearTimeout(timer);}
 }
-async function addCustomer(){const n=document.getElementById("cn").value.trim(),p=document.getElementById("cp").value.trim(),pl=document.getElementById("cpl").value.trim();if(!n||!p){showMsg("Name + Phone required");return;}const v={name:n,phone:p,plate:pl,customerId:nextCust(),status:"Active",dateJoined:new Date().toISOString().slice(0,10)};const id="cust-"+uid();DB.members.push({id,value:v});localSave("members",DB.members);render();showMsg("Customer saved: "+v.customerId);try{await sbCreate("members",v,id);}catch(e){}}
-async function addAttendant(){const n=document.getElementById("an").value.trim(),p=document.getElementById("ap").value.trim();if(!n||!p){showMsg("Name + Phone required");return;}const v={name:n,phone:p,attendantId:nextAtt(),status:"Active"};const id="att-"+uid();DB.attendants.push({id,value:v});localSave("attendants",DB.attendants);render();showMsg("Attendant saved: "+v.attendantId);try{await sbCreate("attendants",v,id);}catch(e){}}
-async function doDeposit(){try{const mid=document.getElementById("dCust").value,amt=parseFloat(document.getElementById("dAmt").value||0),att=document.getElementById("dAtt").value;if(!mid||!amt)return showMsg("Customer + Amount required");const m=DB.members.find(x=>x.id===mid),a=DB.attendants.find(x=>x.id===att);const s=stamp();const v={kind:"deposit",memberId:mid,memberName:m.value.name,amount:amt,attendantName:a?.value.name||"",attendantPhone:a?.value.phone||"",attendantId:a?.value.attendantId||"",...s};await saveTx(v);showMsg("Deposit saved "+fmt(amt));render();}catch(e){showMsg("Could NOT save deposit.\n\n"+e.message);}}
-async function doFuel(){try{const mid=document.getElementById("fCust").value,fuel=document.getElementById("ffuel").value,l=parseFloat(document.getElementById("fL").value||0),pump=document.getElementById("fPump").value,att=document.getElementById("fAtt").value,shift=document.getElementById("fShift").value,credit=document.getElementById("fCredit").checked;if(!mid||!l||!pump||!att||!shift)return showMsg("Customer, litres, Pump, Attendant and Shift are all required");if(l>stock(fuel))return showMsg("Not enough stock: "+stock(fuel).toFixed(1)+" L");const S=settings();const m=DB.members.find(x=>x.id===mid),a=DB.attendants.find(x=>x.id===att);const st=memberStats(mid);if(credit&&st.debt>0)return showMsg("Customer already has debt "+fmt(st.debt)+". Clear it first — one credit only.");const memberPrice=Math.max(0,S.prices[fuel]-S.discountPerLitre);const amt=l*memberPrice;if(!credit&&amt>st.bal)return showMsg("Not enough balance. Balance "+fmt(st.bal)+", need "+fmt(amt)+". Use CREDIT if allowed.");const s=stamp();const v={kind:"fuel",memberId:mid,memberName:m.value.name,amount:amt,fuel,pump,litres:l,pumpPrice:S.prices[fuel],memberPrice,normalTotal:l*S.prices[fuel],discount:l*S.discountPerLitre,isCredit:credit,attendantName:a.value.name,attendantPhone:a.value.phone,attendantId:a.value.attendantId,shift,...s};await saveTx(v);showMsg("Fuel saved: "+l+" L "+fuel+" = "+fmt(amt)+(credit?" on CREDIT":""));render();}catch(e){showMsg("Could NOT save fuel.\n\n"+e.message);}}
-async function doDelivery(){try{const f=document.getElementById("dlF").value,l=parseFloat(document.getElementById("dlL").value||0),sup=document.getElementById("dlS").value;if(!l)return showMsg("Litres required");const v={fuel:f,litres:l,supplier:sup,...stamp()};const id=await sbCreate("deliveries",v,"dl-"+uid());DB.deliveries.push({id,value:v});showMsg("Delivery added");render();}catch(e){showMsg("Could NOT save delivery.\n\n"+e.message);}}
-async function saveSettings(){if(!isAdmin)return showMsg("Only Admin");const old=settings();const v={...old,prices:{Petrol:parseFloat(document.getElementById("sP").value),Diesel:parseFloat(document.getElementById("sD").value)},discountPerLitre:parseFloat(document.getElementById("sDisc").value),adminPin:document.getElementById("sPin").value};if(DB.settings[0]){await sbReplace("settings",DB.settings[0].id,v);DB.settings[0].value=v;}else{const id=await sbCreate("settings",v,"settings-1");DB.settings=[{id,value:v}];}await sbCreate("audit",{action:"price_change",targetLabel:"Settings",oldValue:JSON.stringify(old),newValue:JSON.stringify(v),reason:"Settings saved",...stamp()},"audit-"+uid());showMsg("Settings saved");render();}
-function adminLogin(){const pin=prompt("Enter Admin PIN (default 1234)");if(pin===settings().adminPin){isAdmin=true;showMsg("Admin Mode ON");}else showMsg("Wrong PIN");render();}
-async function delCustomer(id){if(!isAdmin)return;if(!confirm("Delete this customer?"))return;await sbDelete("members",id);DB.members=DB.members.filter(x=>x.id!==id);render();}
-async function delTx(id){if(!isAdmin)return;const r=prompt("Reason for deleting (required)");if(!r)return;await sbDelete("transactions",id);await sbCreate("audit",{action:"delete",targetLabel:"Transaction "+id,oldValue:"",newValue:"Deleted",reason:r,...stamp()},"audit-"+uid());DB.transactions=DB.transactions.filter(x=>x.id!==id);render();}
-async function testConn(){try{const r=await sFetch(SB+"?select=*&limit=1",{headers:H});const txt=await r.text();showMsg("YY Partshan test:\n\nYY Partshan test: HTTP "+r.status+"\n\n"+txt.slice(0,600));}catch(e){showMsg("YY Partshan test: "+e.message+"\n\nBrowser cannot reach YY Partshan. Entries are saved.");}}
-setInterval(()=>{document.getElementById("clock").textContent=new Date().toLocaleString("en-GB")},1000);
-load();
-</script></body></html>
+async function loadCollection(c){
+  const rows=await api("app_records?select=id,collection,record_id,value,created_at,updated_at&collection=eq."+encodeURIComponent(c)+"&order=created_at.asc");
+  return (rows||[]).map(r=>({id:r.record_id,value:r.value,_dbId:r.id,created_at:r.created_at,updated_at:r.updated_at}));
+}
+async function refreshAll(show=true){
+  if(show)toast("Loading records from Supabase…");
+  try{
+    const results=await Promise.all(COLLECTIONS.map(loadCollection));
+    COLLECTIONS.forEach((c,i)=>DB[c]=results[i]);
+    saveCache();online=true;setConnection("Connected • Supabase live",true);
+    render();if(show)toast("Latest records loaded from Supabase.");
+  }catch(e){
+    online=false;setConnection("Offline / connection error");
+    COLLECTIONS.forEach(c=>DB[c]=localRead(c));
+    render();if(show)toast("Could not reach Supabase. Showing this device's cached data: "+e.message,"err");
+  }
+}
+async function createRecord(c,v,recordId){
+  const rid=recordId||uid();
+  const payload={collection:c,record_id:rid,value:v};
+  try{
+    const result=await api("app_records?select=id,record_id,value",{method:"POST",headers:{"Prefer":"return=representation"},body:JSON.stringify(payload)});
+    const row={id:rid,value:v,_dbId:result?.[0]?.id};const idx=DB[c].findIndex(x=>x.id===rid);if(idx>=0)DB[c][idx]=row;else DB[c].push(row);
+    localWrite(c,DB[c]);online=true;setConnection("Saved to Supabase",true);return rid;
+  }catch(e){
+    // Keep a local copy if internet is unavailable; do not claim it reached the cloud.
+    const row={id:rid,value:v,_pending:true};const idx=DB[c].findIndex(x=>x.id===rid);if(idx>=0)DB[c][idx]=row;else DB[c].push(row);
+    localWrite(c,DB[c]);online=false;setConnection("Offline • saved on this device");
+    throw new Error("Cloud save failed. A local copy was kept on this device. "+e.message);
+  }
+}
+async function replaceRecord(c,rid,v){
+  const filter="app_records?collection=eq."+encodeURIComponent(c)+"&record_id=eq."+encodeURIComponent(rid)+"&select=id,record_id,value";
+  try{
+    const updated=await api(filter,{method:"PATCH",headers:{"Prefer":"return=representation"},body:JSON.stringify({value:v})});
+    if(!updated?.length){await createRecord(c,v,rid);}
+    else{const row={id:rid,value:v,_dbId:updated[0].id};const i=DB[c].findIndex(x=>x.id===rid);if(i>=0)DB[c][i]=row;else DB[c].push(row);localWrite(c,DB[c]);}
+    return true;
+  }catch(e){throw new Error("Cloud update failed: "+e.message);}
+}
+async function deleteRecord(c,rid){
+  await api("app_records?collection=eq."+encodeURIComponent(c)+"&record_id=eq."+encodeURIComponent(rid),{method:"DELETE"});
+  DB[c]=DB[c].filter(x=>x.id!==rid);localWrite(c,DB[c]);
+}
+async function syncPending(){
+  toast("Synchronizing local records…");
+  let sent=0,failed=0;
+  for(const c of COLLECTIONS){
+    for(const r of [...DB[c]].filter(x=>x._pending)){
+      try{
+        const existing=await api("app_records?select=id&collection=eq."+encodeURIComponent(c)+"&record_id=eq."+encodeURIComponent(r.id));
+        if(existing?.length)await replaceRecord(c,r.id,r.value);else await createRecord(c,r.value,r.id);
+        const current=DB[c].find(x=>x.id===r.id);if(current)delete current._pending;sent++;
+      }catch{failed++;}
+    }
+  }
+  saveCache();await refreshAll(false);
+  toast(failed?`Synced ${sent}; ${failed} still pending.`:`Synchronization complete: ${sent} record(s) uploaded.`);
+}
+function settings(){return {...DEFAULTS,...(DB.settings[0]?.value||{}),prices:{...DEFAULTS.prices,...(DB.settings[0]?.value?.prices||{})}};}
+function nextNumber(collection,field,prefix){let max=0;for(const x of DB[collection]){const n=parseInt(String(x.value?.[field]||"").replace(prefix,""),10);if(n>max)max=n;}return prefix+String(max+1).padStart(3,"0");}
+function nextCustomer(){return nextNumber("members","customerId","YY-");}
+function nextAttendant(){return nextNumber("attendants","attendantId","ATT-");}
+function stats(memberId){
+  let balance=0,debt=0,deposits=0,fuel=0,discount=0;
+  for(const t of DB.transactions){const v=t.value;if(v.memberId!==memberId)continue;
+    if(v.kind==="deposit"){const clear=Math.min(v.amount,debt);debt-=clear;balance+=v.amount-clear;deposits+=v.amount;}
+    if(v.kind==="fuel"){if(v.isCredit)debt+=v.amount;else balance-=v.amount;fuel+=v.amount;discount+=v.discount||0;}
+  }
+  return {balance,debt,deposits,fuel,discount};
+}
+function stock(fuel){let litres=0;for(const d of DB.deliveries)if(d.value.fuel===fuel)litres+=Number(d.value.litres)||0;for(const t of DB.transactions)if(t.value.kind==="fuel"&&t.value.fuel===fuel)litres-=Number(t.value.litres)||0;return litres;}
+function member(id){return DB.members.find(x=>x.id===id);}
+function attendant(id){return DB.attendants.find(x=>x.id===id);}
+function nav(){
+  const tabs=["Dashboard","Customers","Attendants","Deposit Money","Issue Fuel","Transactions","Fuel Stock","Daily Closing","Deliveries","Expenses","Statement","Settings"];
+  $("tabs").innerHTML=tabs.map(t=>`<button class="${view===t?"active":""}" data-view="${t}">${t}</button>`).join("")+
+    `<button class="soft" id="refreshBtn">Refresh</button><button class="soft" id="syncBtn">Sync Pending</button>`;
+  $("tabs").querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{view=b.dataset.view;render();});
+  $("refreshBtn").onclick=()=>refreshAll(true);$("syncBtn").onclick=syncPending;
+}
+function field(label,id,type="text",placeholder="",value=""){const hint=placeholder||("Enter "+String(label).toLowerCase());return `<label>${esc(label)}</label><input id="${esc(id)}" type="${esc(type)}" placeholder="${esc(hint)}" value="${esc(value)}" autocomplete="off">`;}
+function customerOptions(id){return DB.members.map(m=>`<option value="${esc(m.id)}" ${m.id===id?"selected":""}>${esc(m.value.customerId)} — ${esc(m.value.name)} (Bal ${money(stats(m.id).balance)}${stats(m.id).debt?`, Debt ${money(stats(m.id).debt)}`:""})</option>`).join("");}
+function attendantOptions(id){return `<option value="">Select attendant</option>`+DB.attendants.map(a=>`<option value="${esc(a.id)}" ${a.id===id?"selected":""}>${esc(a.value.attendantId)} — ${esc(a.value.name)}</option>`).join("");}
+function render(){
+  nav();const el=$("app"),S=settings(),d=today();
+  const todays=DB.transactions.filter(x=>x.value.date===d),fuelTx=todays.filter(x=>x.value.kind==="fuel");
+  const totalSales=fuelTx.reduce((a,x)=>a+(+x.value.amount||0),0),totalLitres=fuelTx.reduce((a,x)=>a+(+x.value.litres||0),0),totalDiscount=fuelTx.reduce((a,x)=>a+(+x.value.discount||0),0);
+  const balances=DB.members.reduce((a,m)=>a+stats(m.id).balance,0),debts=DB.members.reduce((a,m)=>a+stats(m.id).debt,0);
+  let html="";
+  if(!online)html+=`<div class="notice warn">You are viewing locally cached records. New entries will be kept on this device if the cloud is unreachable. Use Sync Pending after reconnecting.</div>`;
+  if(view==="Dashboard"){
+    html+=`<section class="card"><h2>Business Overview</h2><div class="muted">${new Date().toLocaleDateString("en-GB",{weekday:"long",year:"numeric",month:"long",day:"numeric"})}</div>
+    <div class="grid g4" style="margin-top:18px"><div><div class="small">MEMBER BALANCES</div><div class="kpi">${money(balances)}</div></div><div><div class="small">TODAY'S FUEL SALES</div><div class="kpi">${money(totalSales)}</div></div><div><div class="small">TODAY'S LITRES</div><div class="kpi">${totalLitres.toFixed(1)} L</div></div><div><div class="small">TODAY'S DISCOUNT</div><div class="kpi">${money(totalDiscount)}</div></div></div>
+    <p class="small">Customers <b>${DB.members.length}</b> • Attendants <b>${DB.attendants.length}</b> • Customer debt <b>${money(debts)}</b> • Petrol stock <b>${stock("Petrol").toFixed(1)} L</b> • Diesel stock <b>${stock("Diesel").toFixed(1)} L</b></p></section>
+    <section class="card"><h3>Search records</h3><input id="globalSearch" placeholder="Search customers, phone numbers, transactions…" value="${esc(search)}"></section>
+    <section class="card"><h3>Recent transactions</h3>${DB.transactions.slice().reverse().slice(0,12).map(t=>`<div class="row"><div><b>${esc(t.value.kind)}</b> • ${esc(t.value.memberName||"Walk-in")}<div class="small">${esc(t.value.fuel||"")} ${t.value.litres?`• ${t.value.litres} L`:""} • ${esc(t.value.attendantName||"")}</div></div><div class="right"><b>${money(t.value.amount)}</b><div class="small">${esc(t.value.dateLabel||t.value.date||"")} ${esc(t.value.timeLabel||"")}</div></div></div>`).join("")||`<p class="muted">No transactions recorded yet.</p>`}</section>`;
+  }
+  if(view==="Customers"){
+    html+=`<section class="card"><h2>Register Customer</h2><p class="small">Next customer number: <b>${nextCustomer()}</b></p><div class="grid g3">${field("Customer name","cName")}${field("Phone number","cPhone","tel")}${field("Vehicle plate (optional)","cPlate")}</div><div class="actions"><button id="addCustomer">Register Customer</button></div></section>
+    <section class="card"><h3>Customers (${DB.members.length})</h3><input id="customerSearch" placeholder="Search name, phone or customer ID" value="${esc(search)}"><div class="tablewrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Phone</th><th>Plate</th><th>Balance</th><th>Debt</th><th>Status</th><th>Action</th></tr></thead><tbody>${DB.members.filter(m=>(`${m.value.name} ${m.value.phone} ${m.value.customerId}`).toLowerCase().includes(search.toLowerCase())).map(m=>{const s=stats(m.id);return `<tr><td><b>${esc(m.value.customerId)}</b></td><td>${esc(m.value.name)}</td><td>${esc(m.value.phone)}</td><td>${esc(m.value.plate||"—")}</td><td>${money(s.balance)}</td><td>${money(s.debt)}</td><td>${esc(m.value.status||"Active")}</td><td>${isAdmin?`<button class="danger" data-del-customer="${esc(m.id)}">Delete</button>`:"—"}</td></tr>`}).join("")||`<tr><td colspan="8">No customers found.</td></tr>`}</tbody></table></div><div class="actions"><button class="secondary" id="adminLogin">${isAdmin?"Admin mode ON":"Admin Login"}</button></div></section>`;
+  }
+  if(view==="Attendants"){
+    html+=`<section class="card"><h2>Register Attendant</h2><p class="small">Next attendant number: <b>${nextAttendant()}</b></p><div class="grid g2">${field("Attendant name","aName")}${field("Phone number","aPhone","tel")}</div><div class="actions"><button id="addAttendant">Register Attendant</button></div></section><section class="card"><h3>Attendants (${DB.attendants.length})</h3>${DB.attendants.map(a=>`<div class="row"><span><b>${esc(a.value.attendantId)}</b> — ${esc(a.value.name)}<div class="small">${esc(a.value.phone)}</div></span><span class="pill">${esc(a.value.status||"Active")}</span></div>`).join("")||"No attendants registered."}</section>`;
+  }
+  if(view==="Deposit Money"){
+    html+=`<section class="card"><h2>Deposit Money</h2>${DB.members.length?`<label>Customer</label><select id="depCustomer">${customerOptions()}</select>${field("Deposit amount (UGX)","depAmount","number","Enter amount") }<label>Attendant</label><select id="depAttendant">${attendantOptions()}</select><div class="actions"><button id="saveDeposit">Save Deposit</button></div><p class="small">Deposits clear outstanding debt first. Any remaining amount is added to the customer's balance.</p>`:`<div class="notice warn">Register a customer before recording a deposit.</div>`}</section>`;
+  }
+  if(view==="Issue Fuel"){
+    html+=`<section class="card"><h2>Issue Fuel to Customer</h2>${DB.members.length?`<div class="grid g2"><div><label>Customer</label><select id="fuelCustomer">${customerOptions()}</select></div><div><label>Fuel type</label><select id="fuelType"><option>Petrol</option><option>Diesel</option></select></div></div>${field("Litres","fuelLitres","number","0.0")}<div id="fuelCalc" class="notice info">Enter litres to calculate member price and total.</div><div class="grid g3"><div><label>Pump</label><select id="fuelPump"><option value="">Select pump</option><option>Pump 1</option><option>Pump 2</option><option>Pump 3</option></select></div><div><label>Attendant</label><select id="fuelAttendant">${attendantOptions()}</select></div><div><label>Shift</label><select id="fuelShift"><option value="">Select shift</option><option>Day Shift</option><option>Night Shift</option></select></div></div><label style="display:flex;align-items:center;gap:8px;text-transform:none;font-size:13px"><input type="checkbox" id="fuelCredit" style="width:auto"> Issue on credit (only when customer has no existing debt)</label><div class="actions"><button id="saveFuel">Save Fuel Issue</button></div>`:`<div class="notice warn">Register a customer before issuing fuel.</div>`}</section>`;
+  }
+  if(view==="Transactions"){
+    html+=`<section class="card"><h2>Transactions Ledger</h2><input id="txSearch" placeholder="Search transaction records…" value="${esc(search)}"><div class="tablewrap"><table><thead><tr><th>Date / Time</th><th>Customer</th><th>Type</th><th>Fuel / Litres</th><th>Amount</th><th>Attendant</th><th>Pump / Shift</th><th>Action</th></tr></thead><tbody>${DB.transactions.slice().reverse().filter(t=>JSON.stringify(t.value).toLowerCase().includes(search.toLowerCase())).map(t=>`<tr><td>${esc(t.value.dateLabel||t.value.date)}<div class="small">${esc(t.value.timeLabel||"")}</div></td><td>${esc(t.value.memberName||"")}</td><td>${esc(t.value.kind)} ${t.value.isCredit?'<span class="pill">CREDIT</span>':""}</td><td>${esc(t.value.fuel||"")} ${t.value.litres?esc(t.value.litres)+" L":""}</td><td><b>${money(t.value.amount)}</b></td><td>${esc(t.value.attendantName||"")}</td><td>${esc(t.value.pump||"")} ${esc(t.value.shift||"")}</td><td>${isAdmin?`<button class="danger" data-del-tx="${esc(t.id)}">Delete</button>`:"—"}</td></tr>`).join("")||`<tr><td colspan="8">No transactions found.</td></tr>`}</tbody></table></div>${isAdmin?`<p class="small">Deleting a transaction changes the customer's balance and stock calculations. Record a reason in the audit log.</p>`:""}</section>`;
+  }
+  if(view==="Fuel Stock"){
+    html+=`<section class="card"><h2>Fuel Stock Position</h2>${["Petrol","Diesel"].map(f=>{const s=stock(f),cap=Number(f==="Petrol"?S.petrolCapacity:S.dieselCapacity)||1,pct=Math.max(0,Math.min(100,s/cap*100));return `<div style="margin:18px 0"><div class="row"><b>${f}</b><b>${s.toFixed(1)} L / ${cap.toLocaleString()} L</b></div><div class="bar"><i style="width:${pct}%"></i></div><div class="small">${pct.toFixed(1)}% of configured capacity</div></div>`}).join("")}</section><section class="card"><h3>Record Fuel Delivery (Stock In)</h3><div class="grid g3"><div><label>Fuel</label><select id="deliveryFuel"><option>Petrol</option><option>Diesel</option></select></div>${field("Litres received","deliveryLitres","number")}${field("Supplier (optional)","deliverySupplier")}</div>${field("Delivery cost (UGX, optional)","deliveryAmount","number")}<div class="actions"><button id="saveDelivery">Add Delivery</button></div></section>`;
+  }
+  if(view==="Daily Closing"){
+    const tx=todays,ft=tx.filter(x=>x.value.kind==="fuel"),dp=tx.filter(x=>x.value.kind==="deposit");
+    const sum=a=>a.reduce((s,x)=>s+(+x.value.amount||0),0),lit=a=>a.reduce((s,x)=>s+(+x.value.litres||0),0);
+    const p=ft.filter(x=>x.value.fuel==="Petrol"),ds=ft.filter(x=>x.value.fuel==="Diesel");
+    html+=`<section class="card"><h2>Daily Closing — ${d}</h2><div class="grid g3"><div><div class="small">TOTAL FUEL SALES</div><div class="kpi">${money(sum(ft))}</div></div><div><div class="small">TOTAL LITRES ISSUED</div><div class="kpi">${lit(ft).toFixed(1)} L</div></div><div><div class="small">DEPOSITS RECEIVED</div><div class="kpi">${money(sum(dp))}</div></div></div><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><p><b>Petrol:</b> ${money(sum(p))} • ${lit(p).toFixed(1)} L</p><p><b>Diesel:</b> ${money(sum(ds))} • ${lit(ds).toFixed(1)} L</p><p><b>Fuel issues:</b> ${ft.length} • <b>Deposits:</b> ${dp.length} • <b>Customers:</b> ${DB.members.length}</p></section>`;
+  }
+  if(view==="Deliveries"){
+    html+=`<section class="card"><h2>Fuel Deliveries</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Fuel</th><th>Litres</th><th>Supplier</th><th>Cost</th></tr></thead><tbody>${DB.deliveries.slice().reverse().map(x=>`<tr><td>${esc(x.value.dateLabel||x.value.date)}</td><td>${esc(x.value.fuel)}</td><td>${Number(x.value.litres||0).toLocaleString()}</td><td>${esc(x.value.supplier||"—")}</td><td>${money(x.value.amount||0)}</td></tr>`).join("")||`<tr><td colspan="5">No deliveries recorded.</td></tr>`}</tbody></table></div></section>`;
+  }
+  if(view==="Expenses"){
+    const total=DB.expenses.reduce((a,x)=>a+(+x.value.amount||0),0);
+    html+=`<section class="card"><h2>Expenses</h2><div class="kpi">${money(total)}</div><p class="small">Total recorded expenses</p><h3 style="margin-top:20px">Add Expense</h3>${field("Expense description","expenseTitle")}${field("Amount (UGX)","expenseAmount","number")}<div class="actions"><button id="saveExpense">Save Expense</button></div></section><section class="card"><h3>Expense History</h3>${DB.expenses.slice().reverse().map(x=>`<div class="row"><span><b>${esc(x.value.title)}</b><div class="small">${esc(x.value.dateLabel||x.value.date)}</div></span><b>${money(x.value.amount)}</b></div>`).join("")||"No expenses recorded."}</section>`;
+  }
+  if(view==="Statement"){
+    html+=`<section class="card"><h2>Customer Statements</h2><input id="statementSearch" placeholder="Search customer…" value="${esc(search)}">${DB.members.filter(m=>(m.value.name+" "+m.value.customerId+" "+m.value.phone).toLowerCase().includes(search.toLowerCase())).map(m=>{const s=stats(m.id),tx=DB.transactions.filter(x=>x.value.memberId===m.id);return `<div class="card" style="margin:12px 0;background:#fbfdff"><div class="row"><div><b>${esc(m.value.name)} (${esc(m.value.customerId)})</b><div class="small">${esc(m.value.phone)}</div></div><div class="right"><b>${money(s.balance)}</b><div class="small">Balance • Debt ${money(s.debt)}</div></div></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Details</th><th>Amount</th></tr></thead><tbody>${tx.map(x=>`<tr><td>${esc(x.value.date||"")}</td><td>${esc(x.value.kind)} ${esc(x.value.fuel||"")} ${x.value.litres?esc(x.value.litres)+" L":""} ${x.value.isCredit?"(Credit)":""}</td><td>${money(x.value.amount)}</td></tr>`).join("")||`<tr><td colspan="3">No transactions yet.</td></tr>`}</tbody></table></div><button class="soft" data-print="${esc(m.id)}">Print statement</button></div>`}).join("")||`<p class="muted">No matching customers.</p>`}</section>`;
+  }
+  if(view==="Settings"){
+    html+=`<section class="card"><h2>System Settings</h2><div class="notice warn"><b>Security note:</b> The current administrator PIN is only a browser-side screen lock. Before using real customer and cash records in production, enable Supabase Authentication and restrictive Row Level Security policies. Never place a service-role key in this app.</div><div class="grid g2">${field("Petrol pump price (UGX/L)","setPetrol","number","",S.prices.Petrol)}${field("Diesel pump price (UGX/L)","setDiesel","number","",S.prices.Diesel)}${field("Member discount per litre (UGX)","setDiscount","number","",S.discountPerLitre)}${field("Admin PIN","setPin","password","",S.adminPin)}${field("Petrol tank capacity (L)","setPetrolCap","number","",S.petrolCapacity)}${field("Diesel tank capacity (L)","setDieselCap","number","",S.dieselCapacity)}</div><div class="actions"><button id="saveSettings">Save Settings</button><button class="secondary" id="adminLogin">${isAdmin?"Admin mode ON":"Admin Login"}</button><button class="soft" id="exportBackup">Export Backup JSON</button><button class="soft" id="importBackup">Import Backup JSON</button><input id="backupFile" type="file" accept="application/json" class="hidden"></div></section>
+    <section class="card"><h3>Connection details</h3><p class="small">Project: <b>${esc(new URL(SUPABASE_URL).host)}</b><br>Table: <b>public.app_records</b><br>Collections: ${COLLECTIONS.join(", ")}</p><div class="actions"><button class="secondary" id="testConnection">Test Supabase connection</button><button class="soft" id="syncPending2">Sync pending local records</button></div></section>
+    <section class="card"><h3>Audit log</h3>${isAdmin?DB.audit.slice().reverse().map(a=>`<div class="row"><span>${esc(a.value.action)} — ${esc(a.value.targetLabel)}<div class="small">${esc(a.value.reason||"")} • ${esc(a.value.dateLabel||"")}</div></span></div>`).join("")||"No audit events yet.":"Log in as admin to view audit entries."}</section>`;
+  }
+  el.innerHTML=html;
+  wireEvents();
+}
+function wireEvents(){
+  const on=(id,fn)=>{const x=$(id);if(x)x.addEventListener("click",fn);};
+  const input=(id,fn)=>{const x=$(id);if(x)x.addEventListener("input",fn);};
+  input("globalSearch",e=>{search=e.target.value;const p=e.target.selectionStart;render();$("globalSearch")?.focus();$("globalSearch")?.setSelectionRange(p,p);});
+  input("customerSearch",e=>{search=e.target.value;render();$("customerSearch")?.focus();});
+  input("txSearch",e=>{search=e.target.value;render();$("txSearch")?.focus();});
+  input("statementSearch",e=>{search=e.target.value;render();$("statementSearch")?.focus();});
+  on("addCustomer",addCustomer);on("addAttendant",addAttendant);on("saveDeposit",doDeposit);on("saveFuel",doFuel);on("saveDelivery",doDelivery);on("saveExpense",addExpense);on("saveSettings",saveSettings);
+  on("adminLogin",adminLogin);on("testConnection",()=>refreshAll(true));on("syncPending2",syncPending);on("exportBackup",exportBackup);on("importBackup",()=>$("backupFile").click());
+  const bf=$("backupFile");if(bf)bf.onchange=importBackup;
+  const fl=$("fuelLitres");if(fl){fl.oninput=calcFuel; $("fuelType").onchange=calcFuel;$("fuelCustomer").onchange=calcFuel;}
+  document.querySelectorAll("[data-del-customer]").forEach(b=>b.onclick=()=>deleteCustomer(b.dataset.delCustomer));
+  document.querySelectorAll("[data-del-tx]").forEach(b=>b.onclick=()=>deleteTransaction(b.dataset.delTx));
+  document.querySelectorAll("[data-print]").forEach(b=>b.onclick=()=>printStatement(b.dataset.print));
+}
+async function addCustomer(){
+  const name=$("cName").value.trim(),phone=$("cPhone").value.trim(),plate=$("cPlate").value.trim();
+  if(!name||!phone)return toast("Customer name and phone are required.","warn");
+  if(DB.members.some(m=>m.value.phone===phone))return toast("A customer with this phone number already exists.","warn");
+  const v={name,phone,plate,customerId:nextCustomer(),status:"Active",dateJoined:today(),...stamp()};
+  try{await createRecord("members",v,"cust-"+uid());toast("Customer saved: "+v.customerId);render();}
+  catch(e){toast(e.message,"err");render();}
+}
+async function addAttendant(){
+  const name=$("aName").value.trim(),phone=$("aPhone").value.trim();
+  if(!name||!phone)return toast("Attendant name and phone are required.","warn");
+  const v={name,phone,attendantId:nextAttendant(),status:"Active",...stamp()};
+  try{await createRecord("attendants",v,"att-"+uid());toast("Attendant saved: "+v.attendantId);render();}
+  catch(e){toast(e.message,"err");render();}
+}
+async function saveTransaction(v){return createRecord("transactions",v,"tx-"+uid());}
+async function doDeposit(){
+  const mid=$("depCustomer")?.value,amount=Number($("depAmount")?.value||0),aid=$("depAttendant")?.value;
+  if(!mid||!(amount>0))return toast("Select a customer and enter a valid amount.","warn");
+  const m=member(mid),a=attendant(aid),s=stamp();
+  const v={kind:"deposit",memberId:mid,memberName:m.value.name,amount,attendantName:a?.value.name||"",attendantPhone:a?.value.phone||"",attendantId:a?.value.attendantId||"",...s};
+  try{await saveTransaction(v);toast("Deposit saved: "+money(amount));render();}
+  catch(e){toast(e.message,"err");render();}
+}
+function calcFuel(){
+  const litres=Number($("fuelLitres")?.value||0),fuel=$("fuelType")?.value||"Petrol",S=settings(),pump=S.prices[fuel],memberPrice=Math.max(0,pump-S.discountPerLitre);
+  const el=$("fuelCalc");if(!el)return;
+  if(!(litres>0)){el.textContent="Enter litres to calculate member price and total.";return;}
+  el.innerHTML=`Pump price: <b>${money(pump)}/L</b> • Member price: <b>${money(memberPrice)}/L</b><br>Discount: <b>${money(litres*S.discountPerLitre)}</b> • Amount payable: <b>${money(litres*memberPrice)}</b> • Available stock: <b>${stock(fuel).toFixed(1)} L</b>`;
+}
+async function doFuel(){
+  const mid=$("fuelCustomer")?.value,fuel=$("fuelType")?.value,litres=Number($("fuelLitres")?.value||0),pump=$("fuelPump")?.value,aid=$("fuelAttendant")?.value,shift=$("fuelShift")?.value,credit=$("fuelCredit")?.checked;
+  if(!mid||!(litres>0)||!pump||!aid||!shift)return toast("Customer, litres, pump, attendant and shift are required.","warn");
+  if(litres>stock(fuel))return toast("Insufficient "+fuel+" stock. Available: "+stock(fuel).toFixed(1)+" L","warn");
+  const m=member(mid),a=attendant(aid),st=stats(mid),S=settings();
+  if(credit&&st.debt>0)return toast("This customer already has outstanding debt. Clear it before giving more credit.","warn");
+  const memberPrice=Math.max(0,S.prices[fuel]-S.discountPerLitre),amount=litres*memberPrice;
+  if(!credit&&amount>st.balance)return toast("Insufficient customer balance. Balance: "+money(st.balance)+". Use credit only if permitted.","warn");
+  const v={kind:"fuel",memberId:mid,memberName:m.value.name,amount,fuel,pump,litres,pumpPrice:S.prices[fuel],memberPrice,normalTotal:litres*S.prices[fuel],discount:litres*S.discountPerLitre,isCredit:credit,attendantName:a.value.name,attendantPhone:a.value.phone,attendantId:a.value.attendantId,shift,...stamp()};
+  try{await saveTransaction(v);toast(`${litres} L ${fuel} issued • ${money(amount)}${credit?" on credit":""}`);render();}
+  catch(e){toast(e.message,"err");render();}
+}
+async function doDelivery(){
+  const fuel=$("deliveryFuel").value,litres=Number($("deliveryLitres").value||0),supplier=$("deliverySupplier").value.trim(),amount=Number($("deliveryAmount").value||0);
+  if(!(litres>0))return toast("Enter valid delivery litres.","warn");
+  const v={fuel,litres,supplier,amount,...stamp()};
+  try{await createRecord("deliveries",v,"dl-"+uid());toast("Fuel delivery saved.");render();}
+  catch(e){toast(e.message,"err");render();}
+}
+async function addExpense(){
+  const title=$("expenseTitle").value.trim(),amount=Number($("expenseAmount").value||0);
+  if(!title||!(amount>0))return toast("Enter expense description and a valid amount.","warn");
+  try{await createRecord("expenses",{title,amount,...stamp()},"ex-"+uid());toast("Expense saved.");render();}
+  catch(e){toast(e.message,"err");render();}
+}
+async function saveSettings(){
+  if(!isAdmin)return toast("Admin login required to change settings.","warn");
+  const old=settings(),v={...old,prices:{Petrol:Number($("setPetrol").value),Diesel:Number($("setDiesel").value)},discountPerLitre:Number($("setDiscount").value),adminPin:$("setPin").value,petrolCapacity:Number($("setPetrolCap").value),dieselCapacity:Number($("setDieselCap").value)};
+  if(!Number.isFinite(v.prices.Petrol)||!Number.isFinite(v.prices.Diesel)||!v.adminPin)return toast("Enter valid prices and PIN.","warn");
+  try{
+    if(DB.settings[0])await replaceRecord("settings",DB.settings[0].id,v);
+    else await createRecord("settings",v,"settings-1");
+    await createRecord("audit",{action:"settings_updated",targetLabel:"System settings",reason:"Settings saved by admin",...stamp()},"audit-"+uid());
+    toast("Settings saved to Supabase.");render();
+  }catch(e){toast(e.message,"err");}
+}
+function adminLogin(){
+  const pin=prompt("Enter administrator PIN:");
+  if(pin===null)return;
+  if(pin===settings().adminPin){isAdmin=true;toast("Admin mode enabled.");render();}
+  else toast("Incorrect administrator PIN.","err");
+}
+async function deleteCustomer(id){
+  if(!isAdmin)return;
+  if(DB.transactions.some(t=>t.value.memberId===id))return toast("This customer has transactions. Keep the account for accurate financial history.","warn");
+  if(!confirm("Permanently delete this customer?"))return;
+  try{await deleteRecord("members",id);await createRecord("audit",{action:"customer_deleted",targetLabel:id,reason:"Deleted by admin",...stamp()},"audit-"+uid());toast("Customer deleted.");render();}
+  catch(e){toast(e.message,"err");}
+}
+async function deleteTransaction(id){
+  if(!isAdmin)return;
+  const reason=prompt("Enter the reason for deleting this transaction:");
+  if(!reason?.trim())return;
+  if(!confirm("Delete this transaction? Customer balances and stock will be recalculated."))return;
+  try{await deleteRecord("transactions",id);await createRecord("audit",{action:"transaction_deleted",targetLabel:id,reason,...stamp()},"audit-"+uid());toast("Transaction deleted.");render();}
+  catch(e){toast(e.message,"err");}
+}
+function printStatement(id){
+  const m=member(id);if(!m)return;const s=stats(id),tx=DB.transactions.filter(x=>x.value.memberId===id);
+  const w=window.open("","_blank");if(!w)return toast("Allow pop-ups to print the statement.","warn");
+  w.document.write(`<html><head><title>Customer Statement</title><style>body{font:14px Arial;padding:30px}h1{color:#10243b}table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border-bottom:1px solid #ddd;padding:9px;text-align:left}</style></head><body><h1>YY PARTSHAN FUELS</h1><h2>Customer Statement</h2><p>${esc(m.value.name)} • ${esc(m.value.customerId)} • ${esc(m.value.phone)}</p><p>Balance: ${money(s.balance)} | Debt: ${money(s.debt)}</p><table><tr><th>Date</th><th>Transaction</th><th>Amount</th></tr>${tx.map(x=>`<tr><td>${esc(x.value.date)}</td><td>${esc(x.value.kind)} ${esc(x.value.fuel||"")} ${esc(x.value.litres||"")} L</td><td>${money(x.value.amount)}</td></tr>`).join("")}</table><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
+}
+function exportBackup(){
+  const data={system:"YY PARTSHAN FUELS",exportedAt:new Date().toISOString(),collections:Object.fromEntries(COLLECTIONS.map(c=>[c,DB[c].map(r=>({id:r.id,value:r.value}))]))};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="YY-PARTSHAN-FUELS-backup-"+today()+".json";a.click();URL.revokeObjectURL(url);toast("Backup downloaded.");
+}
+async function importBackup(e){
+  const file=e.target.files?.[0];if(!file)return;
+  try{
+    const data=JSON.parse(await file.text());if(!data.collections)throw new Error("Invalid backup format.");
+    if(!confirm("Import backup records into Supabase? Existing records with the same IDs will be updated."))return;
+    for(const c of COLLECTIONS)for(const r of data.collections[c]||[]){
+      const found=await api("app_records?select=id&collection=eq."+encodeURIComponent(c)+"&record_id=eq."+encodeURIComponent(r.id));
+      if(found?.length)await replaceRecord(c,r.id,r.value);else await createRecord(c,r.value,r.id);
+    }
+    await refreshAll(false);toast("Backup imported.");render();
+  }catch(err){toast("Import failed: "+err.message,"err");}
+  finally{e.target.value="";}
+}
+setInterval(()=>$("clock").textContent=new Date().toLocaleString("en-GB"),1000);
+window.addEventListener("online",()=>{setConnection("Internet available • checking…");refreshAll(false);});
+window.addEventListener("offline",()=>{online=false;setConnection("Offline • cached data");});
+(async()=>{await refreshAll(false);})();
+</script>
+</body>
+</html>
